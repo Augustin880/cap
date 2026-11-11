@@ -4,13 +4,13 @@
   if (toggle && nav) {
     const closeMenu = () => {
       toggle.setAttribute('aria-expanded', 'false');
-      toggle.setAttribute('aria-label', 'Ouvrir le menu');
+      toggle.setAttribute('aria-label', toggle.dataset.menuOpen || 'Ouvrir le menu');
       nav.classList.remove('open');
     };
     toggle.addEventListener('click', () => {
       const open = toggle.getAttribute('aria-expanded') !== 'true';
       toggle.setAttribute('aria-expanded', String(open));
-      toggle.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+      toggle.setAttribute('aria-label', open ? (toggle.dataset.menuClose || 'Fermer le menu') : (toggle.dataset.menuOpen || 'Ouvrir le menu'));
       nav.classList.toggle('open', open);
     });
     nav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));

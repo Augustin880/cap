@@ -6,6 +6,47 @@ description: ''
 hero_image: ''
 hero_photo_url: https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1400&q=85
 source_url: https://www.capinternationalschool.com/
+home_hero_title: Comprendre, apprendre, produire.
+home_hero_text: Comprendre, apprendre et produire pour atteindre un nouveau cap ! Tel est le credo de notre enseignement.
+home_intro_1: CAP se veut une école à échelle humaine. Dans son approche, CAP privilégie les petits groupes d’élèves.
+home_intro_2: Les classes sont de l’ordre de 2 à 10 élèves.
+credo_1_title: Comprendre
+credo_1_text: Comprendre les matières enseignées par une approche intelligente.
+credo_2_title: Apprendre
+credo_2_text: Apprendre à étudier en acquérant une méthode de travail appropriée.
+credo_3_title: Produire
+credo_3_text: Produire du sens et devenir un acteur de la société.
+intro_kicker: Une école ouverte sur le monde
+intro_title: CAP, une formation
+intro_title_emphasis: personnalisée.
+primary_button: Nos écoles
+secondary_button: Qui sommes-nous ?
+approach_link: Notre approche
+program_kicker: Les écoles de CAP
+program_heading: Nos
+program_heading_emphasis: formations
+program_link: Toutes les formations
+program_card_link: En savoir plus
+program_cards:
+- page: jurys
+  title: Préparation aux jurys
+- page: cap-en-plus
+  title: CAP EN PLUS
+- page: examens
+  title: Préparation aux examens
+transition_badge: 2T
+transition_date: SEPTEMBRE 2026
+transition_title: La deuxième transition ou 2T
+news_heading: Actualités
+news_link: Toutes les actualités
+news:
+- title: CESS MATHEMATIQUES - SCIENCES. AOUT 2026
+  link: actualites.html
+- title: REMEDIATIONS AOÛT 2026.
+  link: actualites.html
+- title: CAP EN PLUS
+  link: actualites.html
+additional_info_heading: Informations complémentaires
 ---
 ## CAP OFFRE DEUX SOLUTIONS :
 

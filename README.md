@@ -1,97 +1,69 @@
-# CAP International School — Refonte sur base de V1, avec Pages CMS
+# CAP International School — Site et Pages CMS
 
-Version statique HTML, JavaScript, CSS. Palette et composants visuels dérivés de la **V1** (bleu profond, ivoire, cuivre ; grand hero photographique). Le logo CAP fourni remplace le logo inventé en V1.
+Le site conserve le design de la V1. Les textes et images visibles proviennent des fichiers dans `content/`. Les fichiers HTML sont **générés** : il ne faut pas les modifier pour changer un texte.
 
-## Ouvrir le site
+## Modifier le site (sans toucher au code)
 
-Le site est **déjà généré** à la racine : ouvrir `index.html` ou servir le dossier avec :
+Ouvrir [Pages CMS](https://app.pagescms.org/), puis le dépôt `Augustin880/cap`.
 
-```sh
-python -m http.server 8000
-```
+Les rubriques apparaissent dans cet ordre :
 
-Puis : `http://localhost:8000/`.
+1. **Pages principales** — l'accueil et la page Contact.
+2. **Formations** — le sommaire, les jurys, CAP EN PLUS, les degrés et les autres parcours.
+3. **École et équipe** — les pages de présentation et les photographies.
+4. **Actualités et ressources** — les articles, dossiers et le plan du site.
+5. **Identité et navigation** — le logo, les coordonnées générales, les menus et les textes communs.
 
-## Pages et navigation
+Un titre, une image ou un paragraphe d'une page se change dans **la page concernée**. Les photographies peuvent être remplacées par l'outil d'import d'images. Les textes longs s'éditent dans le champ « Contenu de la page ».
 
-- Menu principal volontairement limité à **L'école / Les formations / Notre approche / Actualités / Contact**.
-- Toutes les pages de formation sont des pages HTML autonomes ; l'index complet se trouve dans `formations.html`.
-- Les pages secondaires, dossiers, ressources audio et articles du blog figurent dans `archives.html` et dans le pied de page.
-- La première section/hero de **Contact est supprimée**. Le contenu commence immédiatement par les coordonnées, puis la carte.
-- Logo CAP original dans `media/logo-cap.png`.
-- Photos d'illustration **non IA**, URL Unsplash conservées de la V1. Remplacer par des photos autorisées de l'établissement si possible.
+### Coordonnées : une saisie commune, des différences possibles
 
-## Éditer avec Pages CMS
+Dans **Identité et navigation → Coordonnées générales et identité**, saisir l'adresse, le téléphone et l'e-mail généraux. Le site les reprend là où aucune valeur plus spécifique n'a été renseignée.
 
-1. Créer un dépôt GitHub et placer **tous les fichiers** de ce projet à sa racine, notamment `.pages.yml` (fichier caché).
-2. Se connecter sur https://app.pagescms.org/ avec GitHub et autoriser l'application Pages CMS à accéder au dépôt.
-3. Ouvrir le dépôt dans Pages CMS :
-   - **Identité, accueil et coordonnées** : nom de l'école, logo, téléphone, adresse, e-mail, hero et photos.
-   - **Pages et contenus** : titre, description, photo et **texte intégral** de chacune des pages HTML.
-   - **Articles du blog** : ajout et modification des billets.
-4. Enregistrer les modifications dans Pages CMS. Elles sont ajoutées dans le dépôt GitHub.
-5. Configurer le déploiement afin que le site soit regénéré après chaque changement (voir ci-dessous).
+Dans **Pages principales → Contact**, les champs téléphone, e-mail, adresse et nom sont facultatifs :
 
-## Déployer sur Cloudflare Pages
+- Laisser le champ **vide** pour afficher la valeur générale.
+- Renseigner une **valeur spécifique** seulement si la page Contact doit afficher une information différente.
 
-Connecter le dépôt GitHub à Cloudflare Pages.
+Dans les coordonnées générales, les éventuelles valeurs spécifiques pour le haut de page et le pied de page (adresses et téléphones) fonctionnent de la même façon.
 
-- **Build command** : `pip install -r requirements.txt && python build.py`
-- **Build output directory** : `dist`
-- **Root directory** : laisser vide, racine du dépôt.
+Le numéro de téléphone se saisit sous une seule forme lisible (`0471 31 32 63`) : le lien d'appel est automatiquement généré. Il n'y a **pas de second champ** `tel:` à maintenir.
 
-Tout changement enregistré via Pages CMS déclenche un nouveau déploiement si la branche GitHub est connectée à Cloudflare Pages.
+La carte Contact utilise par défaut l'adresse affichée sur Contact. Son champ « Adresse de la carte » ne doit être rempli que si le point sur la carte est différent.
 
-## Importer le contenu original de Jimdo (important)
+### Les images
 
-Les textes visibles **déjà présents** dans cette livraison comprennent le texte intégral de l'accueil fourni en HTML, des informations tirées du site source, ainsi que les noms, liens et catégories de toutes les rubriques. Les détails des autres pages sont provisoirement des **relevés factuels**, pas une copie intégrale de chaque texte. Le script ci-dessous permet d'importer les contenus du site original **sans réécriture**, dans des champs éditables du CMS.
+Pour chaque page, utiliser le champ **Image de la page**. Quand aucune image n'a encore été importée, l'illustration externe existante reste affichée. Il n'est pas nécessaire de renseigner deux fois un lien et une image.
 
-Exécuter **une seule fois, avant les premières modifications dans Pages CMS** :
+Le logo se modifie uniquement dans **Identité et navigation → Coordonnées générales et identité**. Il est réutilisé dans l'en-tête, le pied de page et l'icône du site.
 
-```sh
+Les images insérées au milieu du texte d'une page se modifient dans l'éditeur de texte de cette page. Pour les articles, il y a un champ « Image de l'article » indépendant.
+
+### La page d'accueil
+
+Les textes d'introduction, les trois valeurs pédagogiques, les cartes de formation, la mise en avant de la 2T et les actualités mises en avant se modifient **tous dans Accueil**.
+
+Les éléments des actualités en vedette ont chacun leur titre et leur lien : ils peuvent différer de la page vers laquelle ils renvoient. Les pages de formation conservent elles aussi leurs titres propres ; changer un titre de carte sur l'accueil n'impose pas de modifier celui de la page de formation.
+
+### Ajouter ou modifier un article
+
+Ouvrir **Actualités et ressources → Articles du blog**. Choisir un article existant ou en créer un nouveau. Saisir le titre, la date, le contenu et éventuellement une image.
+
+## Publier sur GitHub Pages
+
+Les modifications enregistrées dans Pages CMS créent un commit dans GitHub. Le workflow `.github/workflows/pages.yml` exécute `python build.py` et publie le dossier `dist`.
+
+Dans **GitHub → Settings → Pages → Build and deployment**, sélectionner **Source : GitHub Actions**. Ne pas choisir « Deploy from a branch » avec des fichiers source non reconstruits.
+
+Le script peut également être lancé localement :
+
+```bash
 pip install -r requirements.txt
-python import_original.py --all --local-first --force
 python build.py
 ```
 
-Le script récupère le HTML public de chaque page Jimdo ; les paragraphes, listes, titres, liens et images sont transformés en Markdown. Il remplace le champ `body` des fichiers `content/pages/*.md`, qui deviennent éditables dans Pages CMS. **Il n'est pas exécuté pendant les builds normaux** pour ne jamais écraser les modifications éditoriales.
+Le contenu du site est dans `content/pages/`, `content/articles/`, `content/site.json` et `content/ui.json`. Le dossier `dist/` est généré et ne doit pas être édité à la main.
 
-### Pages de l'ancien site refusant l'accès automatique
+## Mise en place du correctif
 
-Certaines URL secondaires renvoient **403 Forbidden**. Le script ne prétend pas avoir importé ce qui n'a pas pu être lu : il affiche une erreur et laisse le texte existant intact. Pour ces pages, enregistrer le HTML d'origine dans `source/<slug>.html`, par exemple `source/equipe.html`, puis relancer :
-
-```sh
-python import_original.py --slug=equipe --local-first --force
-python build.py
-```
-
-Attention : la commande `--force` remplace le texte actuel de la page concernée. Faire une sauvegarde/commit avant de la lancer.
-
-L'accueil fourni a été enregistré dans `source/index.html` et importé une première fois. Le contenu intégral des **cinq interviews Radio Antipode** et les documents PDF sont des fichiers externes **liés** vers les originaux, non dupliqués dans le dépôt ; leurs liens restent éditables dans `radio.md` et `dossiers.md`. Il faut vérifier que les fichiers d'origine sont encore disponibles ; certains téléchargements passent par des redirections Jimdo.
-
-**E-mail :** l'adresse est protégée/masquée sur la page source accessible automatiquement. Le champ `contact_email` est laissé vide plutôt que d'inventer une adresse. Renseigner l'adresse officielle dans Pages CMS : elle s'affichera alors comme lien `mailto:`.
-
-**Textes historiques :** les annonces datées (2012 à 2026) ont été conservées comme telles. C'est à l'équipe de l'école de décider quelles informations sont toujours valables avant mise en ligne.
-
-## Structure
-
-| Emplacement | Fonction |
-|---|---|
-| `.pages.yml` | Configuration Pages CMS |
-| `content/site.json` | Données globales modifiables |
-| `content/pages/*.md` | Pages principales et secondaires, titres et contenu |
-| `content/articles/*.md` | Billets de blog |
-| `source/index.html` | Source HTML de l'accueil fournie |
-| `import_original.py` | Import Jimdo vers Markdown éditable |
-| `build.py` | Générateur HTML statique |
-| `assets/style.css` | Feuille de style V1 originale |
-| `assets/v1-cms.css` | Mise en page V1 ajustée |
-| `media/` | Logo et photos à téléverser |
-| `dist/` | Site final construit pour Cloudflare Pages |
-
-## Limites
-
-- Cette version est une **maquette de refonte** non officielle.
-- Les textes qui n'ont pas été fournis en HTML ou récupérés automatiquement ne sont **pas présentés comme une transcription intégrale**. Les liens vers les pages d'origine restent disponibles, ainsi que l'importeur permettant de les intégrer.
-- Le contact n'inclut pas de formulaire d'envoi : aucune boîte de réception ou traitement de données n'a été configuré. Téléphone et accès à l'e-mail d'origine sont présents.
-- Vérifier les droits d'exploitation des textes, photos, documents et fichiers audio avant publication.
+Copier uniquement les fichiers du ZIP au même emplacement, en conservant les dossiers. **Ne pas supprimer** `content/pages/` ni `content/articles/` : les textes importés déjà présents sont préservés. Les deux nouvelles pages de configuration `content/pages/formations.md` et `content/pages/archives.md` sont nécessaires pour que leurs textes de sommaire soient modifiables.

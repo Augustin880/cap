@@ -2,138 +2,434 @@ media:
   input: media
   output: /media
   rename: safe
-  categories: [image]
-
+  categories:
+  - image
 content:
-  - name: settings
-    label: Identité, accueil et coordonnées
+- name: principal
+  label: 01 · Pages principales
+  type: group
+  items:
+  - name: home
+    label: Accueil
     type: file
-    path: content/site.json
-    format: json
+    path: content/pages/index.md
+    format: yaml-frontmatter
+    operations:
+      delete: false
     fields:
-      - name: site_name
-        label: Nom du site
+    - name: title
+      label: Titre de la page dans le navigateur
+      type: string
+      required: true
+    - name: home_hero_title
+      label: Grand titre de l’accueil
+      type: string
+    - name: home_hero_text
+      label: Texte sous le grand titre
+      type: text
+    - name: hero_image
+      label: Grande photographie de l’accueil
+      type: image
+      description: Remplace la photo illustrative actuelle.
+    - name: hero_image_alt
+      label: Description de la photographie
+      type: string
+    - name: primary_button
+      label: Bouton principal
+      type: string
+    - name: secondary_button
+      label: Deuxième bouton
+      type: string
+    - name: intro_kicker
+      label: Petit titre de présentation
+      type: string
+    - name: intro_title
+      label: Titre de présentation
+      type: string
+    - name: intro_title_emphasis
+      label: Fin du titre en italique
+      type: string
+    - name: home_intro_1
+      label: Premier paragraphe
+      type: text
+    - name: home_intro_2
+      label: Deuxième paragraphe
+      type: text
+    - name: approach_link
+      label: Texte du lien vers l’approche
+      type: string
+    - name: credo_1_title
+      label: 'Valeur 1 : titre'
+      type: string
+    - name: credo_1_text
+      label: 'Valeur 1 : texte'
+      type: text
+    - name: credo_2_title
+      label: 'Valeur 2 : titre'
+      type: string
+    - name: credo_2_text
+      label: 'Valeur 2 : texte'
+      type: text
+    - name: credo_3_title
+      label: 'Valeur 3 : titre'
+      type: string
+    - name: credo_3_text
+      label: 'Valeur 3 : texte'
+      type: text
+    - name: program_kicker
+      label: Petit titre des formations
+      type: string
+    - name: program_heading
+      label: Titre des formations
+      type: string
+    - name: program_heading_emphasis
+      label: Fin du titre des formations en italique
+      type: string
+    - name: program_link
+      label: Lien vers toutes les formations
+      type: string
+    - name: program_card_link
+      label: Texte sous chaque formation
+      type: string
+    - name: program_cards
+      label: Formations en vedette
+      type: object
+      list:
+        collapsible:
+          collapsed: true
+          summary: '{title}'
+      fields:
+      - name: page
+        label: Page liée
+        type: select
+        options:
+          values:
+          - name: jurys
+            label: Jurys
+          - name: cap-en-plus
+            label: CAP EN PLUS
+          - name: examens
+            label: Préparation aux examens
+          - name: transition
+            label: 2T
+          - name: deuxieme-degre
+            label: 2e degré
+          - name: troisieme-degre
+            label: 3e degré
+          - name: humaniste
+            label: Formation humaniste
+      - name: title
+        label: Titre affiché
         type: string
-        required: true
-      - name: logo
-        label: Logo original
-        type: image
-      - name: motto
-        label: Devise de l’école
+    - name: transition_badge
+      label: Petit sigle de la 2T
+      type: string
+    - name: transition_date
+      label: Date / mention de la 2T
+      type: string
+    - name: transition_title
+      label: Titre de la 2T
+      type: string
+    - name: news_heading
+      label: Titre de la section Actualités
+      type: string
+    - name: news_link
+      label: Lien vers les actualités
+      type: string
+    - name: news
+      label: Actualités mises en avant
+      type: object
+      list:
+        collapsible:
+          collapsed: true
+          summary: '{title}'
+      fields:
+      - name: title
+        label: Titre affiché
         type: string
-      - name: phone_label
-        label: Téléphone affiché
+      - name: link
+        label: Page ou URL de destination
         type: string
-      - name: phone_href
-        label: Lien téléphone (tel:)
-        type: string
-      - name: address_line_1
-        label: Adresse - ligne 1
-        type: string
-      - name: address_line_2
-        label: Adresse - ligne 2
-        type: string
-      - name: contact_person
-        label: Personne de contact
-        type: string
-      - name: contact_email
-        label: Adresse e-mail
-        type: string
-      - name: home_hero_title
-        label: Grand titre de l’accueil
-        type: string
-      - name: home_hero_text
-        label: Texte d’accueil
-        type: text
-      - name: home_intro_1
-        label: Accueil - présentation courte
-        type: text
-      - name: home_intro_2
-        label: Accueil - taille des classes
-        type: string
-      - name: credo_1_title
-        label: Valeur 1 - titre
-        type: string
-      - name: credo_1_text
-        label: Valeur 1 - description
-        type: text
-      - name: credo_2_title
-        label: Valeur 2 - titre
-        type: string
-      - name: credo_2_text
-        label: Valeur 2 - description
-        type: text
-      - name: credo_3_title
-        label: Valeur 3 - titre
-        type: string
-      - name: credo_3_text
-        label: Valeur 3 - description
-        type: text
-      - name: home_news_1
-        label: Titre actualité 1
-        type: string
-      - name: home_news_2
-        label: Titre actualité 2
-        type: string
-      - name: home_news_3
-        label: Titre actualité 3
-        type: string
-      - name: hero_photo_uploaded
-        label: Photo de couverture - téléversée
-        type: image
-      - name: hero_photo_url
-        label: Photo de couverture - URL initiale
-        type: string
-      - name: home_photo_uploaded
-        label: Autre photo - téléversée
-        type: image
-      - name: home_photo_url
-        label: Autre photo - URL initiale
-        type: string
-
-  - name: pages
-    label: Pages et contenus
+        description: 'Exemple : actualites.html ou article-decret-2017.html'
+    - name: additional_info_heading
+      label: Titre du bloc d’informations complémentaires
+      type: string
+    - name: body
+      label: Informations complémentaires (texte intégral)
+      type: rich-text
+      options:
+        path: media/pages
+        switcher: true
+    - name: nav_label
+      type: string
+      hidden: true
+    - name: category
+      type: string
+      hidden: true
+    - name: description
+      type: string
+      hidden: true
+    - name: source_url
+      type: string
+      hidden: true
+    - name: hero_photo_url
+      type: string
+      hidden: true
+  - name: contact
+    label: Contact
+    type: file
+    path: content/pages/contact.md
+    format: yaml-frontmatter
+    operations:
+      delete: false
+    fields:
+    - name: title
+      label: Titre de la page
+      type: string
+      required: true
+    - name: contact_person
+      label: Nom affiché sur Contact (facultatif)
+      type: string
+      description: 'Vide : utiliser le contact général.'
+    - name: address_line_1
+      label: 'Adresse sur Contact : ligne 1 (facultatif)'
+      type: string
+      description: 'Vide : utiliser l’adresse générale.'
+    - name: address_line_2
+      label: 'Adresse sur Contact : ligne 2 (facultatif)'
+      type: string
+      description: 'Vide : utiliser l’adresse générale.'
+    - name: phone_label
+      label: Téléphone de Contact (facultatif)
+      type: string
+      description: 'Vide : utiliser le téléphone général. Le lien cliquable est calculé automatiquement.'
+    - name: contact_email
+      label: E-mail de Contact (facultatif)
+      type: string
+      description: 'Vide : utiliser l’e-mail général.'
+    - name: show_map
+      label: Afficher la carte
+      type: boolean
+    - name: map_query
+      label: Adresse de la carte (facultatif)
+      type: string
+      description: 'Vide : carte basée sur l’adresse affichée sur Contact.'
+    - name: map_title
+      label: Nom de la carte (facultatif)
+      type: string
+      description: 'Vide : nom du site.'
+    - &id001
+      name: body
+      label: Contenu de la page
+      type: rich-text
+      options:
+        path: media/pages
+        switcher: true
+    - name: nav_label
+      type: string
+      hidden: true
+    - name: description
+      type: string
+      hidden: true
+    - name: category
+      type: string
+      hidden: true
+    - name: hero_image
+      type: string
+      hidden: true
+    - name: hero_photo_url
+      type: string
+      hidden: true
+    - name: source_url
+      type: string
+      hidden: true
+- name: parcours
+  label: 02 · Formations
+  type: group
+  items:
+  - name: formations
+    label: Sommaire des formations
+    type: file
+    path: content/pages/formations.md
+    format: yaml-frontmatter
+    operations:
+      delete: false
+    fields:
+    - name: title
+      label: Titre de la page
+      type: string
+      required: true
+    - name: section_preparation
+      label: 'Titre : préparation et accompagnement'
+      type: string
+    - name: section_degrees
+      label: 'Titre : les degrés'
+      type: string
+    - name: section_humanist
+      label: 'Titre : formation humaniste'
+      type: string
+    - *id001
+    - name: nav_label
+      type: string
+      hidden: true
+    - name: description
+      type: string
+      hidden: true
+    - name: category
+      type: string
+      hidden: true
+    - name: hero_image
+      type: string
+      hidden: true
+    - name: hero_photo_url
+      type: string
+      hidden: true
+    - name: source_url
+      type: string
+      hidden: true
+  - name: parcours_pages
+    label: Pages de formation
     type: collection
     path: content/pages
     format: yaml-frontmatter
+    exclude:
+    - actualites.md
+    - approche.md
+    - archives.md
+    - contact.md
+    - dossiers.md
+    - ecole.md
+    - ecoute.md
+    - enseigner.md
+    - equipe.md
+    - formations.md
+    - index.md
+    - qui-sommes-nous.md
+    - radio.md
     filename: '{primary}.md'
     operations:
       create: false
       rename: false
       delete: false
     view:
-      fields: [title, category]
+      fields:
+      - title
       primary: title
-      sort: title
-      order: asc
-    fields:
-      - name: title
-        label: Titre principal de la page
-        type: string
-        required: true
-      - name: nav_label
-        label: Nom dans les listes et liens
-        type: string
-        required: true
-      - name: category
-        label: Rubrique (interne)
-        type: string
-      - name: description
-        label: Introduction / titre secondaire
-        type: text
-      - name: hero_image
-        label: Photographie - téléversée
-        type: image
-      - name: hero_photo_url
-        label: Photographie illustrative initiale (URL)
-        type: string
-      - name: body
-        label: Texte intégral de la page
-        type: rich-text
-        options:
-          path: media/pages
-          switcher: true
-
+      sort:
+      - title
+      default:
+        sort: title
+        order: asc
+    fields: &id002
+    - name: title
+      label: Titre de la page
+      type: string
+      required: true
+    - name: nav_label
+      label: Nom court dans les liens
+      type: string
+      required: true
+    - name: description
+      label: Sous-titre / introduction
+      type: text
+    - name: hero_image
+      label: Image de la page
+      type: image
+      description: Laissez vide pour conserver la photographie actuelle.
+    - name: hero_image_alt
+      label: Description de l’image (accessibilité)
+      type: string
+    - *id001
+    - name: category
+      type: string
+      hidden: true
+    - name: source_url
+      type: string
+      hidden: true
+    - name: hero_photo_url
+      type: string
+      hidden: true
+- name: school
+  label: 03 · École et équipe
+  type: group
+  items:
+  - name: school_pages
+    label: Pages de l’école
+    type: collection
+    path: content/pages
+    format: yaml-frontmatter
+    exclude:
+    - actualites.md
+    - archives.md
+    - cap-en-plus.md
+    - contact.md
+    - deuxieme-degre.md
+    - dossiers.md
+    - examens.md
+    - formations.md
+    - humaniste.md
+    - index.md
+    - jurys.md
+    - transition.md
+    - troisieme-degre.md
+    filename: '{primary}.md'
+    operations:
+      create: false
+      rename: false
+      delete: false
+    view:
+      fields:
+      - title
+      primary: title
+      sort:
+      - title
+      default:
+        sort: title
+        order: asc
+    fields: *id002
+- name: news
+  label: 04 · Actualités et ressources
+  type: group
+  items:
+  - name: news_pages
+    label: Pages Actualités et dossiers
+    type: collection
+    path: content/pages
+    format: yaml-frontmatter
+    exclude:
+    - approche.md
+    - archives.md
+    - cap-en-plus.md
+    - contact.md
+    - deuxieme-degre.md
+    - ecole.md
+    - ecoute.md
+    - enseigner.md
+    - equipe.md
+    - examens.md
+    - formations.md
+    - humaniste.md
+    - index.md
+    - jurys.md
+    - qui-sommes-nous.md
+    - radio.md
+    - transition.md
+    - troisieme-degre.md
+    filename: '{primary}.md'
+    operations:
+      create: false
+      rename: false
+      delete: false
+    view:
+      fields:
+      - title
+      primary: title
+      sort:
+      - title
+      default:
+        sort: title
+        order: asc
+    fields: *id002
   - name: articles
     label: Articles du blog
     type: collection
@@ -145,30 +441,240 @@ content:
       rename: false
       delete: false
     view:
-      fields: [title, date]
+      fields:
+      - title
+      - date
       primary: title
-      sort: date
-      order: desc
+      sort:
+      - date
+      - title
+      default:
+        sort: date
+        order: desc
     fields:
-      - name: title
-        label: Titre
-        type: string
-        required: true
-      - name: date
-        label: Date
-        type: date
-      - name: image
-        label: Image de l’article
-        type: image
-      - name: image_url
-        label: URL d’image initiale
-        type: string
-      - name: body
-        label: Article complet
-        type: rich-text
-        options:
-          path: media/articles
-
+    - name: title
+      label: Titre de l’article
+      type: string
+      required: true
+    - name: date
+      label: Date
+      type: date
+    - name: image
+      label: Image de l’article
+      type: image
+    - name: image_alt
+      label: Description de l’image
+      type: string
+    - name: body
+      label: Texte de l’article
+      type: rich-text
+      options:
+        path: media/articles
+        switcher: true
+    - name: source_url
+      type: string
+      hidden: true
+    - name: image_url
+      type: string
+      hidden: true
+  - name: archives
+    label: Plan du site et archives
+    type: file
+    path: content/pages/archives.md
+    format: yaml-frontmatter
+    operations:
+      delete: false
+    fields:
+    - name: title
+      label: Titre de la page
+      type: string
+      required: true
+    - name: group_school
+      label: Titre de la rubrique École
+      type: string
+    - name: group_courses
+      label: Titre de la rubrique Formations
+      type: string
+    - name: group_resources
+      label: Titre de la rubrique Ressources
+      type: string
+    - name: group_blog
+      label: Titre de la rubrique Blog
+      type: string
+    - *id001
+    - name: nav_label
+      type: string
+      hidden: true
+    - name: description
+      type: string
+      hidden: true
+    - name: category
+      type: string
+      hidden: true
+    - name: source_url
+      type: string
+      hidden: true
+    - name: hero_image
+      type: string
+      hidden: true
+    - name: hero_photo_url
+      type: string
+      hidden: true
+- name: settings
+  label: 05 · Identité et navigation
+  type: group
+  items:
+  - name: identity
+    label: Coordonnées générales et identité
+    type: file
+    path: content/site.json
+    format: json
+    operations:
+      delete: false
+    fields:
+    - name: site_name
+      label: Nom officiel
+      type: string
+      required: true
+    - name: logo
+      label: Logo de l’école
+      type: image
+    - name: motto
+      label: Devise
+      type: string
+    - name: phone_label
+      label: Téléphone général
+      type: string
+      description: 'Entrer une seule fois le numéro : le lien d’appel est automatique.'
+    - name: address_line_1
+      label: 'Adresse générale : ligne 1'
+      type: string
+    - name: address_line_2
+      label: 'Adresse générale : ligne 2'
+      type: string
+    - name: country
+      label: Pays
+      type: string
+    - name: contact_person
+      label: Personne de contact générale
+      type: string
+    - name: contact_email
+      label: E-mail général
+      type: string
+    - name: header_address_line_1
+      label: Adresse différente dans l’en-tête, ligne 1 (facultatif)
+      type: string
+      description: 'Vide : adresse générale.'
+    - name: header_address_line_2
+      label: Adresse différente dans l’en-tête, ligne 2 (facultatif)
+      type: string
+      description: 'Vide : adresse générale.'
+    - name: header_phone_label
+      label: Téléphone différent dans l’en-tête (facultatif)
+      type: string
+      description: 'Vide : téléphone général.'
+    - name: footer_phone_label
+      label: Téléphone différent dans le pied de page (facultatif)
+      type: string
+      description: 'Vide : téléphone général.'
+    - name: footer_address_line_1
+      label: Adresse différente dans le pied de page, ligne 1 (facultatif)
+      type: string
+      description: 'Vide : adresse générale.'
+    - name: footer_address_line_2
+      label: Adresse différente dans le pied de page, ligne 2 (facultatif)
+      type: string
+      description: 'Vide : adresse générale.'
+  - name: navigation
+    label: Textes du menu et des éléments communs
+    type: file
+    path: content/ui.json
+    format: json
+    operations:
+      delete: false
+    fields:
+    - name: nav_school
+      label: 'Menu : école'
+      type: string
+    - name: nav_courses
+      label: 'Menu : formations'
+      type: string
+    - name: nav_approach
+      label: 'Menu : approche'
+      type: string
+    - name: nav_news
+      label: 'Menu : actualités'
+      type: string
+    - name: nav_contact
+      label: 'Menu : contact'
+      type: string
+    - name: mobile_courses_heading
+      label: 'Menu mobile : rubrique formations'
+      type: string
+    - name: menu_open
+      label: 'Accessibilité : ouvrir le menu'
+      type: string
+    - name: menu_close
+      label: 'Accessibilité : fermer le menu'
+      type: string
+    - name: footer_school
+      label: 'Pied de page : école'
+      type: string
+    - name: footer_courses
+      label: 'Pied de page : formations'
+      type: string
+    - name: footer_information
+      label: 'Pied de page : informations'
+      type: string
+    - name: footer_contact
+      label: 'Pied de page : contact'
+      type: string
+    - name: footer_sitemap
+      label: 'Pied de page : plan du site'
+      type: string
+    - name: footer_back_top
+      label: 'Pied de page : retour en haut'
+      type: string
+    - name: page_home
+      label: 'Fil d’Ariane : accueil'
+      type: string
+    - name: related_heading
+      label: 'Autres pages : titre'
+      type: string
+    - name: toc_heading
+      label: 'Sommaire : titre'
+      type: string
+    - name: blog_heading
+      label: 'Blog : titre'
+      type: string
+    - name: page_image_note
+      label: Texte sous les photos illustratives
+      type: string
+    - name: contact_kicker
+      label: 'Contact : petit titre'
+      type: string
+    - name: contact_person_label
+      label: 'Contact : libellé personne'
+      type: string
+    - name: contact_address_label
+      label: 'Contact : libellé adresse'
+      type: string
+    - name: contact_phone_label
+      label: 'Contact : libellé téléphone'
+      type: string
+    - name: contact_email_label
+      label: 'Contact : libellé e-mail'
+      type: string
+    - name: courses_kicker
+      label: 'Formations : petit titre'
+      type: string
+    - name: navigation_aria_label
+      label: 'Accessibilité : navigation principale'
+      type: string
+    - name: navigation_mobile_aria_label
+      label: 'Accessibilité : navigation mobile'
+      type: string
 settings:
   content:
     merge: true
+
