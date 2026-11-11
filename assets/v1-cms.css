@@ -89,3 +89,18 @@
 @media(max-width:1180px){.footer-upper{grid-template-columns:2fr 1fr 1fr 1fr}.footer-contact{grid-column:2/5}.directory-grid{gap:14px}.home-h1{font-size:clamp(58px,7vw,92px)!important}.desktop-nav{gap:14px}.original-brand{max-width:250px}}
 @media(max-width:900px){.desktop-nav{display:none}.reading-layout{grid-template-columns:1fr;gap:30px}.reading-sidebar{position:static;grid-row:1}.section-index{display:none}.related-links{grid-template-columns:repeat(2,minmax(0,1fr))}.contact-clean-grid{gap:5%}.footer-upper{grid-template-columns:repeat(3,1fr)}.footer-brand{grid-column:1/4}.footer-contact{grid-column:1/4}.directory-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.original-brand img{width:50px;height:50px;flex-basis:50px}.brand-name{font-size:13px}.utility-inner{gap:7px}.utility-inner span{font-size:10px}.utility-inner a{font-size:10px}.hero-grid{min-height:0}.home-h1{font-size:clamp(53px,12vw,76px)!important;max-width:540px}.hero-content{padding:60px 0 30px}.hero-visual{height:420px}.slim-hero .inner-hero-content{padding:43px 0 32px}.slim-hero .inner-hero-media{min-height:250px;height:280px}.reading-section{padding:57px 0 70px}.reading-sidebar{display:flex;justify-content:flex-start}.related-links{grid-template-columns:1fr}.related-section{padding:50px 0}.directory-head{padding:55px 0 46px}.directory-head h1{font-size:clamp(48px,10.5vw,62px)}.directory-body{padding:54px 0 70px}.directory-grid{grid-template-columns:1fr}.directory-photo{height:230px}.directory-section{margin-bottom:55px}.archive-group-links{grid-template-columns:1fr}.contact-clean{padding:55px 0 75px}.contact-clean-grid{grid-template-columns:1fr;gap:30px}.contact-clean h1{font-size:clamp(45px,10vw,65px);margin-bottom:33px}.contact-map{min-height:360px;border-radius:160px 6px 6px 6px}.contact-map iframe{height:380px}.footer-upper{grid-template-columns:1fr 1fr}.footer-brand{grid-column:1/3}.footer-contact{grid-column:1/3}.home-news .news-item{min-height:180px}.home-intro .intro-body{padding-top:0}}
+
+/* Portrait photos should not dominate the reading area. */
+.reading-layout--single{grid-template-columns:minmax(0,850px)}
+.rich-content img{width:auto;max-width:100%;max-height:540px;object-fit:contain}
+.page-equipe .slim-hero .inner-hero-grid{grid-template-columns:minmax(0,1fr) 280px;gap:clamp(25px,5vw,85px);align-items:center}
+.page-equipe .slim-hero .inner-hero-media{width:280px;height:250px;min-height:0;max-height:250px;justify-self:end}
+.page-equipe .reading-section .rich-content img{width:auto;max-width:min(100%,270px);max-height:315px;object-fit:contain;margin:20px 0 30px}
+@media(max-width:700px){
+ .page-equipe .slim-hero .inner-hero-grid{display:flex;flex-direction:column;align-items:stretch;gap:0}
+ .page-equipe .slim-hero .inner-hero-media{align-self:center;width:min(100%,240px);height:200px;min-height:0;max-height:200px;margin:0 auto 26px}
+ .page-equipe .reading-section .rich-content img{max-width:min(100%,225px);max-height:280px}
+}
+
+.contact-clean-grid > div{min-width:0}
+.contact-value{overflow-wrap:anywhere;word-break:normal}

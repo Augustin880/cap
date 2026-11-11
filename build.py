@@ -57,18 +57,51 @@ def pic(slug,alt='',priority=False):
  src=public_path(m.get('hero_image') or m.get('hero_photo_url') or SITE.get('home_photo_uploaded') or SITE.get('home_photo_url'))
  return f'<img src="{t(src)}" alt="{t(alt)}" loading="{ "eager" if priority else "lazy" }" decoding="async">' if src else ''
 
+def decode_protected_email(fragment):
+ try:
+  data=bytes.fromhex(fragment)
+  return ''.join(chr(byte ^ data[0]) for byte in data[1:]) if len(data)>1 else ''
+ except (ValueError, IndexError):
+  return ''
+
+
 def localize_links(rendered):
- # Redirige les liens historiques internes vers les pages reconstruites.
+ # Support original CAP pages and CMS media paths on project-based GitHub Pages.
  soup=BeautifulSoup(rendered, 'html.parser')
  routes={unquote(urlparse(item['meta'].get('source_url','')).path).rstrip('/').casefold(): HEADERS[key]
          for key,item in PAGES.items() if item['meta'].get('source_url') and key not in ('radio','enseigner')}
- for a in soup.select('a[href]'):
-  href=a.get('href','')
-  u=urlparse(href)
-  if u.netloc and u.netloc.casefold() not in ('www.capinternationalschool.com','capinternationalschool.com'):continue
-  path=unquote(u.path).rstrip('/').casefold()
-  if path in routes and path!='':a['href']=routes[path]+(('#'+u.fragment) if u.fragment else '')
+ routes.update({unquote(urlparse(obj['meta'].get('source_url','')).path).rstrip('/').casefold(): 'article-'+key+'.html'
+                for key,obj in ARTICLES.items() if obj['meta'].get('source_url')})
+ routes['']='index.html'
+ for node in list(soup.select('a[href]')):
+  text=node.get_text(' ',strip=True).casefold()
+  if any(term in text for term in ('page d’origine',"page d'origine",'article d’origine',"article d'origine",'site d’origine',"site d'origine")):
+   node.decompose()
+ for node in soup.select('[href], [src]'):
+  for attr in ('href','src'):
+   url=node.get(attr,'')
+   if not url:continue
+   parsed=urlparse(url)
+   if attr=='href' and '/cdn-cgi/l/email-protection' in parsed.path and parsed.fragment:
+    email=decode_protected_email(parsed.fragment)
+    if email and '@' in email:
+     node[attr]='mailto:'+email
+     if node.name=='a' and (not node.get_text(' ',strip=True) or 'email' in node.get_text(' ',strip=True).lower()):
+      node.string=email
+    continue
+   if url.startswith('/media/'):
+    node[attr]=url[1:]
+    continue
+   if attr!='href':continue
+   if parsed.scheme not in ('','http','https'):continue
+   if parsed.netloc and parsed.netloc.casefold() not in ('www.capinternationalschool.com','capinternationalschool.com'):continue
+   if not parsed.path and not parsed.netloc:continue
+   path=unquote(parsed.path).rstrip('/').casefold()
+   if path in routes:
+    suffix=('?'+parsed.query if parsed.query else '')+('#'+parsed.fragment if parsed.fragment else '')
+    node[attr]=routes[path]+suffix
  return str(soup)
+
 
 def get_title(slug):return PAGES.get(slug,{}).get('meta',{}).get('nav_label') or slug
 
@@ -93,7 +126,7 @@ def footer():
 def shell(slug,title,content,description=''):
  # All content is server-rendered static HTML, searchable without JavaScript.
  s=f'''<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#fffefa"><meta name="description" content="{t(description or title)}"><title>{t(title)} — {t(SITE['site_name'])}</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/v1-cms.css"><link rel="icon" type="image/png" href="{t(public_path(SITE.get("logo","media/logo-cap.png")))}"></head><body id="top">{nav(slug)}<main id="main">{content}</main>{footer()}<script src="assets/main.js" defer></script></body></html>'''
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/v1-cms.css"><link rel="icon" type="image/png" href="{t(public_path(SITE.get("logo","media/logo-cap.png")))}"></head><body id="top" class="page-{t(slug)}">{nav(slug)}<main id="main">{content}</main>{footer()}<script src="assets/main.js" defer></script></body></html>'''
  return s
 
 
@@ -110,7 +143,7 @@ def home():
  card_html=''.join(f'''<article class="programme-card"><a class="programme-image" href="{HEADERS[k]}">{pic(k,'Photographie illustrative d’études')}<span class="programme-number">0{i+1}</span></a><div class="programme-body"><h3><a href="{HEADERS[k]}">{t(name)}</a></h3><a class="text-link" href="{HEADERS[k]}">En savoir plus <span>{icon_arrow()}</span></a></div></article>''' for i,(k,name) in enumerate(cards))
  programmes=f'''<section class="section-pad section-cream" id="parcours"><div class="container"><div class="section-head"><div>{label('Les écoles de CAP')}<h2>Nos <em>formations</em></h2></div><a class="text-link" href="formations.html">Toutes les formations <span>{icon_arrow()}</span></a></div><div class="programme-grid">{card_html}</div><a class="transition-banner" href="transition.html"><span class="transition-icon">2T</span><div><span>SEPTEMBRE 2026</span><h3>La deuxième transition ou 2T</h3></div><span class="transition-arrow">{icon_arrow()}</span></a></div></section>'''
  news=f'''<section class="section-pad"><div class="container"><div class="section-head"><div>{label('Actualités')}<h2>Actualités</h2></div><a class="text-link" href="actualites.html">Toutes les actualités <span>{icon_arrow()}</span></a></div><div class="news-grid home-news">{''.join(f'<a class="news-item" href="actualites.html"><span class="news-num">0{i+1}</span><h3>{t(title)}</h3><span class="news-card-arrow">{icon_arrow()}</span></a>' for i,title in enumerate([SITE['home_news_1'],SITE['home_news_2'],SITE['home_news_3']]))}</div></div></section>'''
- source=f'''<section class="section-pad section-cream archive-home"><div class="container"><details class="source-details"><summary><span>Contenu de l’accueil original</span><span class="expand-plus">+</span></summary><div class="rich-content">{body}</div></details></div></section>'''
+ source=f'''<section class="section-pad section-cream archive-home"><div class="container"><details class="source-details"><summary><span>Informations complémentaires</span><span class="expand-plus">+</span></summary><div class="rich-content">{body}</div></details></div></section>'''
  return hero+intro+programmes+news+source
 
 
@@ -145,8 +178,9 @@ def page(slug):
  related_html=''
  if related:
   related_html='<section class="section-pad related-section section-cream"><div class="container">'+label('À découvrir')+'<div class="related-links">'+''.join(f'<a href="{HEADERS[k]}">{t(get_title(k))}<span>{icon_arrow()}</span></a>' for k in related[:6])+'</div></div></section>'
- src=f'<a class="source-inline" href="{t(m.get("source_url"))}" rel="noopener" target="_blank">Page d’origine {icon_out()}</a>' if m.get('source_url') else ''
- return hero+f'<section class="section-pad reading-section"><div class="container reading-layout"><div class="rich-content">{body}</div><div class="reading-sidebar">{contents}{src}</div></div></section>'+related_html
+ sidebar=f'<div class="reading-sidebar">{contents}</div>' if contents else ''
+ reading_class='reading-layout' if contents else 'reading-layout reading-layout--single'
+ return hero+f'<section class="section-pad reading-section"><div class="container {reading_class}"><div class="rich-content">{body}</div>{sidebar}</div></section>'+related_html
 
 
 def listing():
@@ -164,14 +198,27 @@ def archives():
 
 
 def article(slug):
- obj=ARTICLES[slug];m=obj['meta'];body=MD.render(obj['body']);ref=m.get('source_url','')
- src=f'<a href="{t(ref)}" target="_blank" rel="noopener" class="source-inline">Article d’origine {icon_out()}</a>' if ref else ''
- return f'''<section class="directory-head"><div class="container"><div class="breadcrumbs"><a href="archives.html">Blog</a><span>/</span>{t(m.get('date'))}</div><h1 class="article-title">{t(m.get('title'))}</h1></div></section><section class="section-pad"><div class="container reading-layout"><div class="rich-content">{body}</div><div class="reading-sidebar">{src}</div></div></section>'''
+ obj=ARTICLES[slug];m=obj['meta'];body=localize_links(MD.render(obj['body']))
+ article_body=f'<section class="section-pad"><div class="container reading-layout reading-layout--single"><div class="rich-content">{body}</div></div></section>' if body.strip() else ''
+ return f'''<section class="directory-head"><div class="container"><div class="breadcrumbs"><a href="archives.html">Blog</a><span>/</span>{t(m.get('date'))}</div><h1 class="article-title">{t(m.get('title'))}</h1></div></section>{article_body}'''
 
 
 def check_links(output):
  s=BeautifulSoup(output,'html.parser')
- return [a['href'] for a in s.select('a[href]') if a['href'].endswith('.html') and not (ROOT/a['href']).exists()]
+ targets={node.get('id') for node in s.select('[id]')}
+ failures=[]
+ for node in s.select('[href], [src]'):
+  for attr in ('href','src'):
+   raw=node.get(attr,'')
+   parsed=urlparse(raw)
+   if not raw or parsed.scheme or parsed.netloc:continue
+   path=unquote(parsed.path)
+   if path and not (ROOT/path.lstrip('/')).is_file():
+    failures.append(raw+' (missing file)')
+   if parsed.fragment and not path:
+    if unquote(parsed.fragment) not in targets:
+     failures.append(raw+' (missing anchor)')
+ return failures
 
 def build():
  outputs={}

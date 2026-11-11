@@ -1,5 +1,3 @@
-# Configuration officielle Pages CMS (https://app.pagescms.org)
-# Tous les textes visibles et les photos de contenu sont éditables ci-dessous.
 media:
   input: media
   output: /media
@@ -38,11 +36,8 @@ content:
       - name: contact_person
         label: Personne de contact
         type: string
-      - name: contact_original_url
-        label: Lien vers le contact d’origine
-        type: string
       - name: contact_email
-        label: Adresse e-mail (à confirmer)
+        label: Adresse e-mail
         type: string
       - name: home_hero_title
         label: Grand titre de l’accueil
@@ -132,9 +127,6 @@ content:
       - name: hero_photo_url
         label: Photographie illustrative initiale (URL)
         type: string
-      - name: source_url
-        label: Adresse de la page d’origine
-        type: string
       - name: body
         label: Texte intégral de la page
         type: rich-text
@@ -165,9 +157,6 @@ content:
       - name: date
         label: Date
         type: date
-      - name: source_url
-        label: Lien de l’article d’origine
-        type: string
       - name: image
         label: Image de l’article
         type: image
