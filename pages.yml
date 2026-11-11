@@ -1,0 +1,185 @@
+# Configuration officielle Pages CMS (https://app.pagescms.org)
+# Tous les textes visibles et les photos de contenu sont éditables ci-dessous.
+media:
+  input: media
+  output: /media
+  rename: safe
+  categories: [image]
+
+content:
+  - name: settings
+    label: Identité, accueil et coordonnées
+    type: file
+    path: content/site.json
+    format: json
+    fields:
+      - name: site_name
+        label: Nom du site
+        type: string
+        required: true
+      - name: logo
+        label: Logo original
+        type: image
+      - name: motto
+        label: Devise de l’école
+        type: string
+      - name: phone_label
+        label: Téléphone affiché
+        type: string
+      - name: phone_href
+        label: Lien téléphone (tel:)
+        type: string
+      - name: address_line_1
+        label: Adresse - ligne 1
+        type: string
+      - name: address_line_2
+        label: Adresse - ligne 2
+        type: string
+      - name: contact_person
+        label: Personne de contact
+        type: string
+      - name: contact_original_url
+        label: Lien vers le contact d’origine
+        type: string
+      - name: contact_email
+        label: Adresse e-mail (à confirmer)
+        type: string
+      - name: home_hero_title
+        label: Grand titre de l’accueil
+        type: string
+      - name: home_hero_text
+        label: Texte d’accueil
+        type: text
+      - name: home_intro_1
+        label: Accueil - présentation courte
+        type: text
+      - name: home_intro_2
+        label: Accueil - taille des classes
+        type: string
+      - name: credo_1_title
+        label: Valeur 1 - titre
+        type: string
+      - name: credo_1_text
+        label: Valeur 1 - description
+        type: text
+      - name: credo_2_title
+        label: Valeur 2 - titre
+        type: string
+      - name: credo_2_text
+        label: Valeur 2 - description
+        type: text
+      - name: credo_3_title
+        label: Valeur 3 - titre
+        type: string
+      - name: credo_3_text
+        label: Valeur 3 - description
+        type: text
+      - name: home_news_1
+        label: Titre actualité 1
+        type: string
+      - name: home_news_2
+        label: Titre actualité 2
+        type: string
+      - name: home_news_3
+        label: Titre actualité 3
+        type: string
+      - name: hero_photo_uploaded
+        label: Photo de couverture - téléversée
+        type: image
+      - name: hero_photo_url
+        label: Photo de couverture - URL initiale
+        type: string
+      - name: home_photo_uploaded
+        label: Autre photo - téléversée
+        type: image
+      - name: home_photo_url
+        label: Autre photo - URL initiale
+        type: string
+
+  - name: pages
+    label: Pages et contenus
+    type: collection
+    path: content/pages
+    format: yaml-frontmatter
+    filename: '{primary}.md'
+    operations:
+      create: false
+      rename: false
+      delete: false
+    view:
+      fields: [title, category]
+      primary: title
+      sort: title
+      order: asc
+    fields:
+      - name: title
+        label: Titre principal de la page
+        type: string
+        required: true
+      - name: nav_label
+        label: Nom dans les listes et liens
+        type: string
+        required: true
+      - name: category
+        label: Rubrique (interne)
+        type: string
+      - name: description
+        label: Introduction / titre secondaire
+        type: text
+      - name: hero_image
+        label: Photographie - téléversée
+        type: image
+      - name: hero_photo_url
+        label: Photographie illustrative initiale (URL)
+        type: string
+      - name: source_url
+        label: Adresse de la page d’origine
+        type: string
+      - name: body
+        label: Texte intégral de la page
+        type: rich-text
+        options:
+          path: media/pages
+          switcher: true
+
+  - name: articles
+    label: Articles du blog
+    type: collection
+    path: content/articles
+    format: yaml-frontmatter
+    filename: '{primary}.md'
+    operations:
+      create: true
+      rename: false
+      delete: false
+    view:
+      fields: [title, date]
+      primary: title
+      sort: date
+      order: desc
+    fields:
+      - name: title
+        label: Titre
+        type: string
+        required: true
+      - name: date
+        label: Date
+        type: date
+      - name: source_url
+        label: Lien de l’article d’origine
+        type: string
+      - name: image
+        label: Image de l’article
+        type: image
+      - name: image_url
+        label: URL d’image initiale
+        type: string
+      - name: body
+        label: Article complet
+        type: rich-text
+        options:
+          path: media/articles
+
+settings:
+  content:
+    merge: true
