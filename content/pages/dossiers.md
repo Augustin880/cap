@@ -9,10 +9,8 @@ source_url: https://www.capinternationalschool.com/dossiers/
 ---
 ## Le secondaire prépare-t-il bien au supérieur ?
 
-Article du Soir paru le 25 avril 2012.
+En 1re année du supérieur, les étudiants sont 60% à échouer. La faute à qui ? Au secondaire ? Ou a un enseignement supérieur incapable d'épauler les jeunes qui se confient à lui ?
 
-[Le-Soir-25-avril-2012.pdf](https://www.capinternationalschool.com/app/download/7253713384/Le-Soir-25-avril-2012.pdf?t=1360235340)
+Pour plus d'informations, n'hésitez pas à lire l'article du Soir paru le 25 avril 2012.
 
 ## Décret du 26 octobre 2017 réorganisant les jurys
-
-[DECRET.pdf](https://www.capinternationalschool.com/app/download/9032999984/DECRET.pdf?t=1532429943)
